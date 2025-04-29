@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>SIPP Kel. 2</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100%;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* sp scc */
+    #splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: #006400;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      cursor: pointer;
+      transition: opacity 0.8s ease;
+    }
+    #splash h1 { font-size: 2em; animation: zoomIn 2s ease-out; }
+    #skip-instruction {
+      position: absolute;
+      bottom: 30%;
+      width: 100%;
+      text-align: center;
+      animation: blink 2s infinite;
+      opacity: 0;
+    }
+
+    /* isi konten */
+    #main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    #main-content.show {
+      opacity: 1;
+    }
+
+    /* atas */
+    header {
+      background: #006400;
+      color: white;
+      padding: 8px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    header img { height: 70px; width: 70px; }
+    header h2 { margin: 0; font-size: 18px; }
+    header p { margin: 2px 0 0 0; font-size: 14px; }
+
+    /* navbar */
+    nav {
+      background: #228B22;
+      display: flex;
+    }
+    nav a {
+      flex: 1;
+      padding: 10px 8px;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-right: 1px solid #1e6d1e;
+    }
+    nav a:last-child { border-right: none; }
+    nav a:hover { background: #32CD32; }
+
+    /* isi */
+    .content {
+      padding: 0;
+      margin: 0;
+      flex: 1;
+    }
+    .content h3 {
+      margin: 12px 20px 8px 20px;
+      font-size: 18px;
+      color: #333;
+    }
+    .search-container {
+      margin: 0 20px 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-container input[type="date"] {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 150px;
+    }
+    .search-container button {
+      padding: 6px 12px;
+      background: white;
+      color: #228B22;
+      border: 2px solid #228B22;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .search-container button:hover {
+      background: #228B22;
+      color: white;
+    }
+
+    /* tabel */
+    table {
+      width: calc(100% - 40px);
+      margin: 0 20px 20px 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th { background: #90EE90; }
+
+    /* bawah */
+    .footer-container {
+      background: #006400;
+      color: white;
+      padding: 6px 15px;
+      text-align: center;
+      font-size: 12px;
+      position: relative;
+      margin-top: auto;
+    }
+    .footer-version {
+      position: absolute;
+      right: 15px;
+      bottom: 8px;
+      font-size: 12px;
+    }
+
+    /* popup box */
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      display: none;
+      animation: zoomIn 0.5s ease-out;
+    }
+
+    #popup .close {
+      cursor: pointer;
+      font-size: 18px;
+      color: #ff0000;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    /* animasi */
+    @keyframes zoomIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* nama kelompok */
+    #splash .team-header {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: white;
+    font-size: 14px;
+    }
+
+    #splash .team-header strong {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+    }
+
+    #splash .team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+
+    #splash .team-list li {
+    font-size: 13px;
+    margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- splash screen -->
+  <div id="splash">
+     <div class="team-header">
+        <strong>Kelompok 2</strong>
+        <ul class="team-list">
+          <li>Sulthan Hasanuddien Agung : 2283120016</li>
+          <li>Vega Vauzizah : 2283120018</li>
+          <li>Salwa Falhaeni : 2283120029</li>
+          <li>Saro Azzahra : 2283120030</li>
+          <li>Ade Suryana : 2283120031</li>
+          <li>Muhammad Reva : 2283120034</li>
+        </ul>
+  </div>
+    <h1>Pratikum Administrasi Perdata</h1>
+    <p id="skip-instruction">Klik untuk melanjutkan</p>
+    <small style="position: absolute; bottom: 10px; width: 90%; text-align: center; font-size: 11px; color: rgba(255,255,255,0.7);">
+    *Disclaimer: Semua data yang ada di dalam ini bersifat ngarang dan juga mungkin ada banyak kesalahan.* <i>(kurang lebih)</i>
+    </small>
+  </div>
+
+  <!-- main content -->
+  <div id="main-content">
+    <header>
+      <img src="https://sipp.pa-cirebon.go.id/resources/img/logo.png" alt="Logo PA">
+      <div>
+        <h2>Sistem Informasi Penelusuran Perkara</h2>
+        <p>PENGADILAN AGAMA CIREBON <i><b>Cabang UINSSC</b></i></p>
+      </div>
+    </header>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Perdata Gugatan</a>
+      <a href="#">Permohonan</a>
+      <a href="#">Jinayah</a>
+      <a href="#">Jadwal Sidang</a>
+      <a href="#">Laporan</a>
+    </nav>
+
+    <div class="content">
+      <h3>JADWAL SIDANG - Jumat, 25 Apr. 2025</h3>
+      <div class="search-container">
+        <input type="date">
+        <button>Cari</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Tanggal Sidang</th>
+            <th>Nomor Perkara</th>
+            <th>Sidang Keliling</th>
+            <th>Ruangan</th>
+            <th>Agenda</th>
+            <th>Detil</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Baris 1 -->
+          <tr>
+            <td>1</td>
+            <td>25/04/2025</td>
+            <td>123/Pdt.G/2025/PA.Cbn</td>
+            <td>Tidak</td>
+            <td>1</td>
+            <td>Pembacaan Gugatan</td>
+            <td><a href="#" class="view-detail" 
+             data-nomor="123/Pdt.G/2025/PA.Cbn"
+             data-tanggal="25/04/2025"
+             data-agenda="Pembacaan Gugatan"
+             data-ruangan="Ruang 1"
+             data-keliling="Tidak"
+             data-pendaftaran="10/04/2025"
+             data-surat="S-12345/PA/2025"
+             data-tanggal-surat="12/04/2025"
+             data-hakim="Dr. H. Sulthan Hasanudin Agung S.H M.H"
+             data-penggugat="Vega Vauzizah"
+             data-tergugat="Salwa Faalhaeni"
+             data-catatan="Sidang berjalan lancar, tidak ada halangan berarti.">Lihat</a></td>
+          </tr>
+          <!-- Baris 2 -->
+          <tr>
+            <td>2</td>
+            <td>25/04/2025</td>
+            <td>124/Pdt.G/2025/PA.Cbn</td>
+            <td>Tidak</td>
+            <td>2</td>
+            <td>Jawaban Tergugat</td>
+            <td><a href="#" class="view-detail" 
+             data-nomor="124/Pdt.G/2025/PA.Cbn"
+             data-tanggal="26/04/2025"
+             data-agenda="Pemeriksaan Bukti"
+             data-ruangan="Ruang 2"
+             data-keliling="Tidak"
+             data-pendaftaran="15/04/2025"
+             data-surat="S-12346/PA/2025"
+             data-tanggal-surat="16/04/2025"
+             data-hakim="Dr. Ade Suryana S.H M.H"
+             data-penggugat="Anwar Ikhsan"
+             data-tergugat="Muhammad Ammar"
+             data-catatan="Sidang berjalan dengan baik, semua bukti diterima.">Lihat</a></td>
+          </tr>
+          <!-- Baris 3 -->
+          <tr>
+            <td>3</td>
+            <td>25/04/2025</td>
+            <td>125/Pdt.G/2025/PA.Cbn</td>
+            <td>Tidak</td>
+            <td>4</td>
+            <td>Pembuktian</td>
+            <td><a href="#" class="view-detail" 
+             data-nomor="125/Pdt.G/2025/PA.Cbn"
+             data-tanggal="27/04/2025"
+             data-agenda="Pembacaan Putusan Pembuktian"
+             data-ruangan="Ruang 4"
+             data-keliling="Tidak"
+             data-pendaftaran="20/04/2025"
+             data-surat="S-12347/PA/2025"
+             data-tanggal-surat="22/04/2025"
+             data-hakim="Dr. H. Sulthan Hasanudin Agung S.H M.H"
+             data-penggugat="Hafis Muhammad"
+             data-tergugat="Hilmy Aufar"
+             data-catatan="Putusan dibacakan, pihak penggugat memenangkan perkara.">Lihat</a></td>
+            <!-- Baris 4 -->
+          <tr>
+            <td>4</td>
+            <td>25/04/2025</td>
+            <td>126/Pdt.G/2025/PA.Cbn</td>
+            <td>Tidak</td>
+            <td>2</td>
+            <td>Jawaban Tergugat</td>
+            <td><a href="#" class="view-detail"
+              data-nomor="126/Pdt.G/2025/PA.Cbn"
+              data-tanggal="25/04/2025"
+              data-agenda="Pemeriksaan Bukti"
+              data-ruangan="Ruang 2"
+              data-keliling="Tidak"
+              data-pendaftaran="12/04/2025"
+              data-surat="S-12348/PA/2025"
+              data-tanggal-surat="15/04/2025"
+              data-hakim="Dr. H. Farhan H. Abdullah S.H M.H"
+              data-penggugat="Mira Sari"
+              data-tergugat="Andi Priyanto"
+              data-catatan="Sidang tidak berjalan dengan baik, pihak tergugat tidak dapat menghadiri persidangan">Lihat</a></td>
+          </tr>
+          <!-- Baris 5 -->
+          <tr>
+            <td>5</td>
+            <td>25/04/2025</td>
+            <td>127/Pdt.G/2025/PA.Cbn</td>
+            <td>Tidak</td>
+            <td>3</td>
+            <td>Putusan</td>
+            <td><a href="#" class="view-detail"
+              data-nomor="127/Pdt.G/2025/PA.Cbn"
+              data-tanggal="25/04/2025"
+              data-agenda="Putusan"
+              data-ruangan="Ruang 3"
+              data-keliling="Tidak"
+              data-pendaftaran="14/04/2025"
+              data-surat="S-12349/PA/2025"
+              data-tanggal-surat="18/04/2025"
+              data-hakim="Dr. H. Anton S.H M.H"
+              data-penggugat="Dina Kartika"
+              data-tergugat="Reza Fauzi"
+              data-catatan="Putusan dibacakan, pihak tergugat kalah dalam perkara ini.">Lihat</a></td>
+            <!-- Baris 6 -->
+          <tr>
+            <td>6</td>
+            <td>25/04/2025</td>
+            <td>128/Pdt.G/2025/PA.Cbn</td>
+            <td>Tidak</td>
+            <td>4</td>
+            <td>Mediasi</td>
+            <td><a href="#" class="view-detail"
+              data-nomor="128/Pdt.G/2025/PA.Cbn"
+              data-tanggal="25/04/2025"
+              data-agenda="Mediasi"
+              data-ruangan="Ruang 4"
+              data-keliling="Tidak"
+              data-pendaftaran="16/04/2025"
+              data-surat="S-12350/PA/2025"
+              data-tanggal-surat="19/04/2025"
+              data-hakim=" Dr. H. Riza M.Si S.H"
+              data-penggugat="Indra Bastian"
+              data-tergugat="Lia Oktaviana"
+              data-catatan="Sidang mediasi dilaksanakan, kesepakatan sedang dibahas.">Lihat</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer-container">
+      <div>Hak Cipta ©?? <i>Tidak ada hak cipta, ciptaan</i></div>
+      <div class="footer-version">Versi?? <i>Seadanya</i></div>
+    </div>
+  </div>
+
+  <!-- popup detail -->
+  <div id="popup">
+    <span class="close" onclick="document.getElementById('popup').style.display='none'">&#10006;</span>
+    <h3>Detail Sidang</h3>
+    <p><strong>Nomor Perkara:</strong> <span id="popup-nomor"></span></p>
+    <p><strong>Tanggal Sidang:</strong> <span id="popup-tanggal"></span></p>
+    <p><strong>Agenda:</strong> <span id="popup-agenda"></span></p>
+    <p><strong>Ruangan:</strong> <span id="popup-ruangan"></span></p>
+    <p><strong>Sidang Keliling:</strong> <span id="popup-keliling"></span></p>
+    <p><strong>Tanggal Pendaftaran:</strong> <span id="popup-pendaftaran"></span></p>
+    <p><strong>Nomor Surat:</strong> <span id="popup-surat"></span></p>
+    <p><strong>Tanggal Surat:</strong> <span id="popup-tanggal-surat"></span></p>
+    <p><strong>Hakim Ketua:</strong> <span id="popup-hakim"></span></p>
+    <p><strong>Penggugat:</strong> <span id="popup-penggugat"></span></p>
+    <p><strong>Tergugat:</strong> <span id="popup-tergugat"></span></p>
+    <p><strong>Catatan:</strong> <span id="popup-catatan"></span></p>
+  </div>
+
+  <script>
+    window.onload = function() {
+      const splash = document.getElementById('splash');
+      const skipText = document.getElementById('skip-instruction');
+      const popup = document.getElementById('popup');
+      const closePopup = popup.querySelector('.close');
+      const viewDetails = document.querySelectorAll('.view-detail');
+
+      // durasi transisi klik di sini
+      setTimeout(() => skipText.style.opacity = '1', 1000);
+
+      // klik disini kan ya
+      splash.addEventListener('click', function() {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.display = 'none';
+          document.getElementById('main-content').classList.add('show');
+        }, 800);
+      });
+
+      // klik lihat biar muncul popup sih paling
+      viewDetails.forEach(button => {
+        button.addEventListener('click', function(event) {
+          event.preventDefault();
+
+          // data dari atribut data-*
+          const nomor = button.getAttribute('data-nomor');
+          const tanggal = button.getAttribute('data-tanggal');
+          const agenda = button.getAttribute('data-agenda');
+          const ruangan = button.getAttribute('data-ruangan');
+          const keliling = button.getAttribute('data-keliling');
+          const tanggalPendaftaran = button.getAttribute('data-pendaftaran');
+          const nomorSurat = button.getAttribute('data-surat');
+          const tanggalSurat = button.getAttribute('data-tanggal-surat');
+          const hakim = button.getAttribute('data-hakim');
+          const penggugat = button.getAttribute('data-penggugat');
+          const tergugat = button.getAttribute('data-tergugat');
+          const catatan = button.getAttribute('data-catatan');
+
+          // data ke detail
+          document.getElementById('popup-nomor').textContent = nomor;
+          document.getElementById('popup-tanggal').textContent = tanggal;
+          document.getElementById('popup-agenda').textContent = agenda;
+          document.getElementById('popup-ruangan').textContent = ruangan;
+          document.getElementById('popup-keliling').textContent = keliling;
+
+          // Info tambahan
+          document.getElementById('popup-pendaftaran').textContent = tanggalPendaftaran;
+          document.getElementById('popup-surat').textContent = nomorSurat;
+          document.getElementById('popup-tanggal-surat').textContent = tanggalSurat;
+          document.getElementById('popup-hakim').textContent = hakim;
+          document.getElementById('popup-penggugat').textContent = penggugat;
+          document.getElementById('popup-tergugat').textContent = tergugat;
+          document.getElementById('popup-catatan').textContent = catatan;
+
+          // muncul popup
+          popup.style.display = 'block';
+        });
+      });
+
+      // tutup popup
+      closePopup.addEventListener('click', function() {
+        popup.style.display = 'none';
+      });
+
+      // tutup popup klo klik di luar box
+      window.addEventListener('click', function(event) {
+        if (event.target === popup) {
+          popup.style.display = 'none';
+        }
+      });
+    };
+  </script>
+
+</body>
+</html>
